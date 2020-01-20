@@ -45,18 +45,20 @@ export const NeumorphismButton: FunctionComponent<NeumorphismButtonProps> = ({
   });
 
   // action when press in
-  const actIn = Animated.timing(x, {
-    toValue: 1,
-    duration: 200,
-    easing: Easing.linear,
-  });
+  const actIn = () =>
+    Animated.timing(x, {
+      toValue: 1,
+      duration: 200,
+      easing: Easing.linear,
+    }).start();
 
   // action when press out
-  const actOut = Animated.timing(x, {
-    toValue: 0,
-    duration: 200,
-    easing: Easing.linear,
-  });
+  const actOut = () =>
+    Animated.timing(x, {
+      toValue: 0,
+      duration: 200,
+      easing: Easing.linear,
+    }).start();
 
   // inside ring diameter will be scale down when press
   const insideDiameter = x.interpolate({
@@ -73,6 +75,7 @@ export const NeumorphismButton: FunctionComponent<NeumorphismButtonProps> = ({
   /**
    * @Main_render
    */
+
   return (
     <>
       <TouchableOpacity
@@ -80,8 +83,8 @@ export const NeumorphismButton: FunctionComponent<NeumorphismButtonProps> = ({
         style={styles.container}
         hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
         activeOpacity={1}
-        onPressIn={() => actIn.start()}
-        onPressOut={() => actOut.start()}>
+        onPressIn={actIn}
+        onPressOut={actOut}>
         <View style={styles.container}>
           <Animated.View
             style={[

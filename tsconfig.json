@@ -23,7 +23,8 @@
     "baseUrl": ".",
     "paths": {
       "screen/*": ["src/screen/*"],
-      "themes/*": ["src/themes/*"]
+      "themes/*": ["src/themes/*"],
+      "component/*": ["src/component/*"]
     }
   }
 }

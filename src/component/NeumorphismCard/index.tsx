@@ -1,12 +1,58 @@
-import React, {FunctionComponent} from 'react';
-import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import React, {FunctionComponent, useCallback} from 'react';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {dimensions} from 'themes/baseDimentions';
 import {NeumorphismButton} from '../NeumorphismButton';
-export const NeumorphismCard: FunctionComponent = () => {
+import {basicStyle} from 'themes/basic.style';
+import {playlistType} from '../../typing/playlist.type';
+import {playlistController} from '../../store/PlaylistController';
+import _ from 'lodash';
+import {useNavigation} from 'react-navigation-hooks';
+
+interface NeumorphismCardProps {}
+export const NeumorphismCard: FunctionComponent<
+  NeumorphismCardProps
+> = ({}) => {
+  const {navigate} = useNavigation();
+  const playlist: playlistType = {
+    name: 'Favorites',
+    createdCount: 365,
+    type: 'Songs',
+  };
+  const slide = new Animated.Value(0);
+  const act = Animated.timing(slide, {
+    toValue: 1,
+    duration: 200,
+    useNativeDriver: true,
+  });
+  const translateX = slide.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 400],
+  });
+  const handleNavigate = useCallback(
+    _.debounce(() => {
+      navigate('PlaylistScreen');
+    }, 600),
+    [],
+  );
+  const _onPress = () => {
+    act.start(() => {
+      playlistController.currentPlaylist = playlist;
+      handleNavigate();
+    });
+  };
   return (
-    <>
-      <TouchableWithoutFeedback>
+    <Animated.View
+      style={{
+        transform: [{translateX}],
+      }}>
+      <TouchableWithoutFeedback onPress={() => _onPress()}>
         <View style={styles.containerWrapper}>
           <LinearGradient
             style={styles.container}
@@ -31,15 +77,15 @@ export const NeumorphismCard: FunctionComponent = () => {
                  *@name_and_author
                  */}
                 <View>
-                  <Text style={styles.title}>Favorites</Text>
-                  <Text style={styles.text}>VuongPSHT</Text>
+                  <Text style={basicStyle.title}>Favorites</Text>
+                  <Text style={basicStyle.text}>VuongPSHT</Text>
                 </View>
                 {/**
                  *@playlist_detail
                  */}
                 <View>
-                  <Text style={styles.title}>365</Text>
-                  <Text style={styles.text}>Songs</Text>
+                  <Text style={basicStyle.title}>365</Text>
+                  <Text style={basicStyle.text}>Songs</Text>
                 </View>
               </View>
             </View>
@@ -48,7 +94,7 @@ export const NeumorphismCard: FunctionComponent = () => {
           <View style={styles.bottomShadow} />
         </View>
       </TouchableWithoutFeedback>
-    </>
+    </Animated.View>
   );
 };
 
@@ -108,16 +154,5 @@ const styles = StyleSheet.create({
   infoWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  title: {
-    color: '#e0e0e0',
-    fontSize: 20,
-    fontWeight: '500',
-  },
-  text: {
-    color: '#7E7F81',
-    fontSize: 12,
-    fontWeight: '400',
-    marginTop: dimensions.spacing.small,
   },
 });

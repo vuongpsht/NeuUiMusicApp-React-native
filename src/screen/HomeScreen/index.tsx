@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {colors} from 'themes/colors';
-import {NeumorphismCard} from '../../component/NeumorphismCard';
+import {NeumorphismCard} from 'component/NeumorphismCard';
+import {useIsFocused} from 'react-navigation-hooks'
 
 export const HomeScreen = () => {
+  const isFocused = useIsFocused()
   return (
     <View style={styles.container}>
-      <NeumorphismCard />
+      <NeumorphismCard {...{isFocused}} />
     </View>
   );
 };
