@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {colors} from 'themes/colors';
-import {NeumorphismNumberButton} from 'component/NeumorphismNumberButton';
+import {Index} from 'component/NeumorphismNumberButton';
 import {dimensions} from 'themes/baseDimentions';
 import {NeumorphismButton} from 'component/NeumorphismButton';
 import {basicStyle} from 'themes/basic.style';
@@ -14,10 +14,10 @@ interface NeumorphismItemProps {
 export const NeumorphismItem: FunctionComponent<NeumorphismItemProps> = ({
   item,
 }) => {
-  const {name, author} = item;
+  const {name, author, position} = item;
   return (
     <View style={styles.container}>
-      <NeumorphismNumberButton />
+      <Index position={position} />
       <View style={styles.songDetailWrapper}>
         <Text style={basicStyle.title}>{name}</Text>
         <Text style={basicStyle.text}>{author}</Text>
@@ -34,9 +34,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: dimensions.screenWidth,
     padding: dimensions.spacing.bigger,
-    paddingHorizontal: dimensions.spacing.bigger * 2,
+    paddingHorizontal: dimensions.spacing.bigger * 1.5,
   },
   songDetailWrapper: {
-    flex: 5,
+    flex: 4,
+    paddingHorizontal: dimensions.spacing.bigger
   },
 });
